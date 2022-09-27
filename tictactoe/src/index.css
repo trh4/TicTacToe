@@ -49,3 +49,9 @@ ul {
 .game-info {
   margin-left: 20px;
 }
+/* .classBold button{
+  font-weight: 900;
+} */
+.selected button{
+  font-weight: 700;
+}

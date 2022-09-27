@@ -55,6 +55,7 @@ class Game extends React.Component {
       history: [
         {
           squares: Array(9).fill(null),
+          moveLocation: null,
         },
       ],
       stepNumber: 0,
@@ -74,6 +75,7 @@ class Game extends React.Component {
       history: history.concat([
         {
           squares: squares,
+          moveLocation:i
         },
       ]),
       stepNumber: history.length,
@@ -83,7 +85,7 @@ class Game extends React.Component {
 
   jumpTo(step) {
     this.setState((state) => {
-      let newHistory = state.history.slice(0, step+1);
+      let newHistory = state.history.slice(0, step + 1);
       return {
         stepNumber: step,
         xIsNext: step % 2 === 0,
@@ -97,9 +99,23 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares); //winner inp: squares [null,x,o,x,x,....] out: x / o /null
     const moves = history.map((step, move) => {
-      const desc = move ? "Go to move #" + move : "Go to game start";
+      const movePlayer=(move%2==0)? "O" : "X";
+
+      const moveLoc=step.moveLocation;
+      const moveRow=Math.floor(moveLoc/3);
+      const moveCol=moveLoc%3+1;
+      console.log("loc "+moveLoc)
+      console.log("row "+moveRow)
+      console.log("col "+moveCol)
+      console.log("new")
+
+      console.log("move is" + move)
+      console.log("currenct is" + this.state.stepNumber)
+
+      const classBold=(move===this.state.stepNumber)?"selected":'normal'
+      const desc = move ? "Go to move #" + move + " was " +movePlayer+ " in:["+moveRow+","+moveCol+"]" : "Go to game start";
       return (
-        <li key={move}>
+      <li key={move} className={classBold}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
